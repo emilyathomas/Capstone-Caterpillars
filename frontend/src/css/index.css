@@ -49,11 +49,14 @@ html {
     margin: 40px auto;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    /*min-height: 80vh;*/
 }
 
 .image-container {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 40px auto;
 }
 
 .image-container img {
@@ -78,10 +81,11 @@ html {
 .img-center {
     display: block;
     margin-top: 5%;
+    margin-bottom: 5%;
     padding: 2px;
     margin-left: auto;
     margin-right: auto;
-    /*width: 50%;*/
+    width: 50%;
 }
 
 /*  --------------- Responsive Images -----------------  */
@@ -139,20 +143,26 @@ body {
     font-size: 80%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 header.primary {
     background-color: #035AA6;
     text-align: center;
     color: #ffffff;
-    padding: 40px;
-    padding: 20px 40px 20px 40px;
+    /*padding: 40px;*/
+    /*top right bottom left*/
+    padding: 5px 40px 5px 40px;
     text-shadow: 1px 1px #000000;
 }
 
     header.primary h1 {
-        font-size: 2.4rem;
-        margin: 20px 0 10px;
+        font-size: 2.0rem;
+        margin: 5px 0 5px;
     }
 
         header.primary h1 a {
@@ -161,13 +171,15 @@ header.primary {
         }
 
     header.primary h2 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
 
     header.primary nav {
+        max-width: 800px;
+        margin: 5px auto;
         text-align: left;
-        padding: 20px 40px 20px 40px;
-        font-size: 1.4rem;
+        padding: 0px 100px 0px 100px;
+        font-size: 1.0rem;
     }
 
         header.primary nav:hover {
@@ -203,6 +215,7 @@ header.primary {
                     }
 
 footer {
+    /*margin-top: auto;*/
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -210,7 +223,9 @@ footer {
     color: white;
     text-align: center;
     padding: 0px;
-    flex-direction: row;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 #colophon {
