@@ -5,5 +5,9 @@ const sequelize = new Sequelize('Registration', 'dbmasteruser', 'caterpillar', {
     dialect: 'mysql' // choose the dialect
 });
 
+//const sequelize = new Sequelize('Registration', 'root', 'caterpillar', {
+//    host: 'localhost',
+//    dialect: 'mysql'
+//});
 module.exports = sequelize;
 
