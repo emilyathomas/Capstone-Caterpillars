@@ -93,7 +93,7 @@ const transporter = nodemailer.createTransport({
     service: 'Outlook365',
     auth: {
         user: 'capstone-caterpillar@outlook.com',
-        pass: '8!gIq2iatnbHMXms8!gIq2iatnbHMXms' 
+        pass: '8!gIq2iatnbHMXms' 
   }
 });
     const mailOptions = {
