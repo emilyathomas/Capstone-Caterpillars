@@ -57,6 +57,34 @@ router.post('/signup', async (req, res) => {
       requestedDate: formattedDate,
       uniqueIdentifier: uuidv4()
     });
+
+    router.get('/confirm/:uniqueIdentifier', async (req, res) => {
+      const { uniqueIdentifier } = req.params;
+    
+      try {
+        const unregisteredUser = await UnregisteredUser.findOne({
+          where: { uniqueIdentifier }
+        });
+    
+        if (!unregisteredUser) {
+          return res.status(404).json({ success: false, message: 'Invalid or expired confirmation link' });
+        }
+    
+        await RegisteredUser.create({
+          verifiedEmail: unregisteredUser.submittedEmail,
+          password: unregisteredUser.pendingUserPassword,
+        });
+    
+        await UnregisteredUser.destroy({
+          where: { uniqueIdentifier }
+        });
+    
+        res.status(200).json({ success: true, message: 'Account confirmed and user registered successfully' });
+      } catch (err) {
+        console.error('Error during confirmation:', err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+    });
     
 
 // Set up nodemailer transporter
@@ -69,7 +97,7 @@ const transporter = nodemailer.createTransport({
   }
 });
     const mailOptions = {
-        from: 'capstone-caterpillar@outlook.com', // Sender address
+      from: 'capstone-caterpillar@outlook.com', // Sender address
       to: email, // Recipient address
       subject: 'Registration Confirmation',
       html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://yourdomain.com/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
