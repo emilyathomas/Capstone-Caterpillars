@@ -90,10 +90,10 @@ router.post('/signup', async (req, res) => {
 // Set up nodemailer transporter
 // Create a transporter for nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'Outlook365', 
-  auth: {
-    user: 'capstone-caterpillar@outlook.com', 
-    pass: '8!gIq2iatnbHMXms' 
+    service: 'Outlook365Outlook365',
+    auth: {
+        user: 'capstone-caterpillar@outlook.comcapstone-caterpillar@outlook.com',
+        pass: '8!gIq2iatnbHMXms8!gIq2iatnbHMXms' 
   }
 });
     const mailOptions = {

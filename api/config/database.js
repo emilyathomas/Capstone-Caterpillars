@@ -10,5 +10,9 @@ const sequelize = new Sequelize('Registration', 'root', 'root', {
     dialect: 'mysql'
 });
 
+//const sequelize = new Sequelize('Registration', 'root', 'caterpillar', {
+//    host: 'localhost',
+//    dialect: 'mysql'
+//});
 module.exports = sequelize;
 
