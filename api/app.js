@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+
 var homeRouter = require('./routes/home');
 var indexRouter = require('./routes/index');
 var landingRouter = require('./routes/landing');
@@ -37,26 +38,23 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 app.use('/home', homeRouter);
 app.use('/', indexRouter);
 app.use('/landing', landingRouter);
 app.use('/users', usersRouter);
 app.use('/testAPI', testAPIRouter);
-
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
-});
+    console.log(req.originalUrl);
+    next(createError(404));
+})
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
