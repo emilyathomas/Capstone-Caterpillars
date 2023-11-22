@@ -107,6 +107,15 @@ router.get('/confirm/:uniqueIdentifier', async (req, res) => {
       if (!unregisteredUser) {
         return res.status(404).json({ success: false, message: 'Invalid or expired confirmation link' });
       }
+      const verifiedEmail = unregisteredUser.submittedEmail; // Make sure this field exists in your unregistered user model
+      const password = unregisteredUser.pendingUserPassword; // Make sure this field exists in your unregistered user model
+  
+      await RegisteredUser.create({
+        verifiedEmail: verifiedEmail,
+        password: password,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
   
       await UnregisteredUser.destroy({
         where: { uniqueIdentifier: req.params.uniqueIdentifier }
@@ -117,6 +126,6 @@ router.get('/confirm/:uniqueIdentifier', async (req, res) => {
       console.error('Error during confirmation:', err);
       return res.status(500).json({ success: false, message: 'Internal server error' });
     }
-});
+  });
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './css/index.css';
 import Login from './components/loginComponent.js'
@@ -11,17 +11,29 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} />
+          }
+        />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={ isAuthenticated ? (
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
               <Layout>
-                <Route path="/home" element={<Home />} />
+                  <Home />
               </Layout>
             ) : (
-              <Navigate to="/login" />
+                <Navigate to="/login" replace />
             )
           }
         />
