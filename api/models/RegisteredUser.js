@@ -8,7 +8,7 @@ RegisteredUser.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    primaryKey: true  // Set as primary key if this is your primary key field
+    primaryKey: true 
   },
   password: {
     type: DataTypes.STRING,
@@ -17,8 +17,10 @@ RegisteredUser.init({
 }, {
   sequelize,
   modelName: 'RegisteredUser',
-  tableName: 'registeredUser',
-  timestamps: false
+  tableName: 'registereduser',
+  timestamps: true,
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 

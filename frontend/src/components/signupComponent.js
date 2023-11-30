@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../css/loginandregistration.css'
+import '../css/index.css'
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ function SignUp() {
 
     // Check if email is already in use
     try {
-      const response = await fetch('http://localhost:4000/testAPI/signup', {
+      const response = await fetch('http://localhost:4000/landing/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,10 +47,11 @@ function SignUp() {
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="">
+      <div>
+          <form onSubmit={handleSubmit}>
+              <h2>Sign Up</h2> 
+              <div className="">
+                  <div className="input-container">
           <label>Email</label>
           <input
             placeholder="Enter Email"
@@ -58,7 +59,7 @@ function SignUp() {
             onChange={handleEmailChange}
           />
         </div>
-        <div className="">
+                  <div className="input-container">
           <label>Password</label>
           <input
             placeholder="Enter Password"
@@ -67,7 +68,7 @@ function SignUp() {
             onChange={handlePasswordChange}
           />
         </div>
-        <div className="">
+                  <div className="input-container">
           <label>Re-enter Password</label>
           <input
             placeholder="Re-enter Password"
@@ -75,9 +76,13 @@ function SignUp() {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
           />
-        </div>
-        <button type="submit" className="">Sign Up</button>
-        <Link to="/" className=""> Login</Link>
+        </div></div>
+        <button type="submit" className="">
+          Submit
+        </button>
+        <Link to="/login" className="">
+          Login
+        </Link>
       </form>
     </div>
   );
