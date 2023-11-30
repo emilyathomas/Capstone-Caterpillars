@@ -38,7 +38,7 @@ router.post('/signup', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Email is already in use' });
         }
 
-        const uniqueIdentifier = uuidv4();
+        const uniqueIdentifier = uuidv4(); // Generate a unique identifier
 
         function getCurrentDateFormatted() {
             const now = new Date();
@@ -51,13 +51,13 @@ router.post('/signup', async (req, res) => {
 
         const formattedDate = getCurrentDateFormatted();
 
+        // Create an UnregisteredUser with the same uniqueIdentifier
         const unregisteredUser = await UnregisteredUser.create({
             submittedEmail: email,
             pendingUserPassword: password,
             requestedDate: formattedDate,
-            uniqueIdentifier: uuidv4()
+            uniqueIdentifier: uniqueIdentifier // Use the same uniqueIdentifier here
         });
-
 
         // Set up nodemailer transporter
         // Create a transporter for nodemailer
@@ -72,7 +72,7 @@ router.post('/signup', async (req, res) => {
             from: 'capstone-caterpillar@outlook.com', // Sender address
             to: email, // Recipient address
             subject: 'Registration Confirmation',
-            html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://yourdomain.com/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
+            html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://localhost:9000/landing/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
         };
 
         console.log(`Submitted Email: ${email}\nPendingPassword: ${password}\nrequestedDate: ${formattedDate}`)
@@ -93,5 +93,39 @@ router.post('/signup', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
+
+router.get('/confirm/:uniqueIdentifier', async (req, res) => {
+    console.log('Confirm route hit with uniqueIdentifier:', req.params.uniqueIdentifier); // Log when the route is hit
+  
+    try {
+      console.log('Looking for unregistered user');
+      const unregisteredUser = await UnregisteredUser.findOne({
+        where: { uniqueIdentifier: req.params.uniqueIdentifier }
+      });
+  
+      console.log('Unregistered user found:', unregisteredUser);
+      if (!unregisteredUser) {
+        return res.status(404).json({ success: false, message: 'Invalid or expired confirmation link' });
+      }
+      const verifiedEmail = unregisteredUser.submittedEmail; // Make sure this field exists in your unregistered user model
+      const password = unregisteredUser.pendingUserPassword; // Make sure this field exists in your unregistered user model
+  
+      await RegisteredUser.create({
+        verifiedEmail: verifiedEmail,
+        password: password,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+  
+      await UnregisteredUser.destroy({
+        where: { uniqueIdentifier: req.params.uniqueIdentifier }
+      });
+  
+      return res.status(200).json({ success: true, message: 'Account confirmed and user registered successfully' });
+    } catch (err) {
+      console.error('Error during confirmation:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
 
 module.exports = router;

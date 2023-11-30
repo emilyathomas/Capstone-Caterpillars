@@ -77,8 +77,12 @@ function SignUp() {
             onChange={handleConfirmPasswordChange}
           />
         </div></div>
-        <button type="submit" className="">Sign Up</button>
-        <Link to="/" className=""> Login</Link>
+        <button type="submit" className="">
+          Submit
+        </button>
+        <Link to="/login" className="">
+          Login
+        </Link>
       </form>
     </div>
   );

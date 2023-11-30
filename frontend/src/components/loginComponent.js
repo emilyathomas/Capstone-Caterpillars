@@ -16,33 +16,32 @@ function Login({onLogin}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     // Validate email and password if needed
     // Send request to backend to verify email and password
     try {
       //begin API call
-        const response = await fetch("http://localhost:4000/landing/login", { 
-            //changed away from testAPI to look more professional
-            //const response = await fetch("http://localhost:4000/testAPI/login", { 
+      const response = await fetch("http://localhost:4000/landing/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
-        if (data.success) { //Successful API response
-              console.log('Successful')
-            onLogin();
-          } else {
-              console.log('login failed') //Unsuccessful API response
-          }
-      } catch (error) {
-          console.error(error);
-          console.log(error)
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        // Successful API response
+        console.log('Successful');
+        onLogin();
+      } else {
+        console.log('login failed'); // Unsuccessful API response
       }
-    };
+    } catch (error) {
+      console.error(error);
+      console.log(error);
+    }
+  };
 
 
 return (
@@ -73,9 +72,8 @@ return (
                         onChange={handlePasswordChange} />
                 </div>
             </div>
-
             <button type="submit" className="">
-                Log in
+                Submit
             </button>
             <Link to="/signup" className="link">
                 Create Account

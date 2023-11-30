@@ -8,22 +8,19 @@ RegisteredUser.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    primaryKey: true  // Set as primary key if this is your primary key field
+    primaryKey: true 
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  accountType: {
-    type: DataTypes.BOOLEAN,
-  },
 }, {
   sequelize,
   modelName: 'RegisteredUser',
-  tableName: 'registeredUser',
-  timestamps: true,  // Explicitly enable timestamps
-  createdAt: 'createdAt',  // Explicitly specify createdAt field
-  updatedAt: 'updatedAt'  // Explicitly specify updatedAt field
+  tableName: 'registereduser',
+  timestamps: true,
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 
