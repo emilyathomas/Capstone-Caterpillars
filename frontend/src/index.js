@@ -19,7 +19,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
-<<<<<<< Updated upstream
           path="/login"
           element={
             isAuthenticated ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} />
@@ -27,8 +26,6 @@ function App() {
         />
         <Route path="/signup" element={<SignUp />} />
         <Route
-=======
->>>>>>> Stashed changes
           path="/"
           element={
             isAuthenticated ? (
@@ -36,11 +33,7 @@ function App() {
                   <Home />
               </Layout>
             ) : (
-<<<<<<< Updated upstream
                 <Navigate to="/login" replace />
-=======
-              <Navigate to="/landing" /> 
->>>>>>> Stashed changes
             )
           }
         />
