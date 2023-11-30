@@ -14,16 +14,11 @@ RegisteredUser.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-  accountType: {
-    type: DataTypes.BOOLEAN,
-  },
 }, {
   sequelize,
   modelName: 'RegisteredUser',
   tableName: 'registeredUser',
-  timestamps: true,  // Explicitly enable timestamps
-  createdAt: 'createdAt',  // Explicitly specify createdAt field
-  updatedAt: 'updatedAt'  // Explicitly specify updatedAt field
+  timestamps: false
 });
 
 

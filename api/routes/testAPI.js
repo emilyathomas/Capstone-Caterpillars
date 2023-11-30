@@ -40,16 +40,7 @@ router.post('/signup', async (req, res) => {
 
     const uniqueIdentifier = uuidv4();
 
-    function getCurrentDateFormatted() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = (now.getMonth() + 1).toString().padStart(2, '0'); 
-      const day = now.getDate().toString().padStart(2, '0');
-    
-      return `${month}-${day}-${year}`;
-    }
-
-    const formattedDate = getCurrentDateFormatted();
+    const formattedDate = new Date().toISOString().split('T')[0];
 
     const unregisteredUser = await UnregisteredUser.create({
       submittedEmail: email,
@@ -60,19 +51,18 @@ router.post('/signup', async (req, res) => {
     
 
 // Set up nodemailer transporter
-// Create a transporter for nodemailer
 const transporter = nodemailer.createTransport({
-  service: '', 
+  service: 'Outlook365', 
   auth: {
-    user: '', 
-    pass: '' 
+    user: 'cannunerog@outlook.com', 
+    pass: '661T296K' 
   }
 });
     const mailOptions = {
-      from: '', // Sender address
+      from: 'cannunerog@outlook.com', // Sender address
       to: email, // Recipient address
       subject: 'Registration Confirmation',
-      html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://yourdomain.com/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
+      html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://localhost:4000/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
     };
 
     console.log(`Submitted Email: ${email}\nPendingPassword: ${password}\nrequestedDate: ${formattedDate}`)
