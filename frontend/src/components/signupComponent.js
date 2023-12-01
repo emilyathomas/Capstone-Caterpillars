@@ -30,7 +30,7 @@ function SignUp() {
 
     // Check if email is already in use
     try {
-      const response = await fetch('http://localhost:4000/landing/signup', {
+      const response = await fetch('http://0.0.0.0/landing/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
