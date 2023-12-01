@@ -95,7 +95,7 @@ return (
           </Box>
         </form>
     </div>
-        <img src="./Caterpillar.png" className="img-center" alt="team logo" /></>
+  </>
 
 );
 }
