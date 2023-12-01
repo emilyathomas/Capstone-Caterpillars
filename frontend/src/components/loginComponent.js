@@ -27,7 +27,7 @@ function Login({onLogin}) {
     // Send request to backend to verify email and password
     try {
       //begin API call
-      const response = await fetch("http://localhost:4000/landing/login", {
+      const response = await fetch("http://capstonecaterpillars/landing/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
