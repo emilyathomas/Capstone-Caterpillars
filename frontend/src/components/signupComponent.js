@@ -59,7 +59,7 @@ function SignUp() {
         <form onSubmit={handleSubmit}>
           <Box  sx={{ backgroundColor: 'white', margin: '100px auto', width: '50vh', height: '50vh', borderRadius: '30px', boxShadow: 3 }}>
             <Stack sx={{margin: 'auto'}}>
-            <Typography sx={{margin:'auto', fontSize:'50px', fontFamily:'Arial', fontWeight: 'bolder', color:'#2f74f5'}}>
+            <Typography sx={{textAlign: 'center', margin:'auto', fontSize:'50px', fontFamily:'Arial', fontWeight: 'bolder', color:'#2f74f5',margin: '20px 0' }}>
               Sign Up
             </Typography>
             <div className="">
