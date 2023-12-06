@@ -71,7 +71,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     const fetchData = async () => {
       try {
         console.log('Fetching SampleData')
-        const response = await fetch("http://localhost:4000/");
+        const response = await fetch("http://localhost:4000/home");
         console.log(response)
         const result = await response.json();
         setData(result);
