@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Stack from '@mui/material/Stack';
@@ -22,37 +21,37 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     width:'50%',
     color: theme.palette.text.secondary,
-}));
+  }));
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: 20,
     backgroundColor: alpha(theme.palette.common.white, 1),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 1),
+      backgroundColor: alpha(theme.palette.common.white, 1),
     },
     margin:theme.spacing(2),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
+      marginLeft: theme.spacing(3),
+      width: 'auto',
     },
-}));
+  }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
     },
-}));
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+  }));
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -60,22 +59,64 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-}));
+  }));
 
-function Home(){
+
+
+
+ function Home(){
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log('ahsdf')
+        const response = await fetch("http://localhost:4000/home");
+        console.log(response)
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching data:');
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+    
+
+    const renderCards = () => {
+      if (!data || data.length === 0) {
+        console.log("coudn;t load")
+        return <Typography>No data available</Typography>;
+      }
+      return data.map((item) => (
+        <Grid item xs={4} padding={'20px'}>
+          <Card  key={item.id}>
+            <CardActionArea>
+              <CardContent>
+                <Typography variant="h5">{item.companyName}</Typography>
+                <Typography>{item.headquartersAddress}</Typography>
+                <Typography>{item.hasEmployed}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ));
+    };
     return (
         <Box>
 
             <Search>
-                <SearchIconWrapper>
-                    <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                />
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
             </Search>
-            <Grid container spacing={2} backgroundColor="white" margin={'auto'}boxShadow={20}>
+            <Grid container spacing={2} backgroundColor="white" margin={'auto'} padding={'20px'} boxShadow={20}>
                 <Grid item xs={2}  justifyContent={'center'} alignContent={'center'} boxShadow={30}>
                     <Stack spacing={2} useFlexGap justifyContent={'center'} alignContent={'center'}>
                         <Item>Filter 1</Item>
@@ -83,92 +124,20 @@ function Home(){
                         <Item>Filter 3</Item>
                     </Stack>
                 </Grid>
-                <Grid item xs={8}>
-                    <Grid container spacing={2} backgroundColor="#D3D3D3" border={"10px solid white"}>
-                        <Grid item xs={5}>
-                            <Card width="80%">
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        img="/images/atatHq.jpg"
-                                        alt="AT&T Building 1"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            AT&T
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Telecommunications company
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Card width="80%">
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        img="/images/atatHq.jpg"
-                                        alt="AT&T Building 2"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            AT&T
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Telecommunications company
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={7}>
-                            <Card width="80%">
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        img="/images/atatHq.jpg"
-                                        alt="AT&T Building 3"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            AT&T
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Telecommunications company
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Card width="80%">
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        img="/images/atatHq.jpg"
-                                        alt="AT&T Building 3"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            AT&T
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Telecommunications company
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                    </Grid>
+                <Grid item xs={10} padding={'20px'}>
+                  <Grid container spacing={2} backgroundColor="#D3D3D3" padding={'20px'} border={"10px solid white"}>
+                    
+                  {renderCards()}
+                    
+                  </Grid>
                 </Grid>
+             
             </Grid>
+
+
+        
         </Box>
+        
     );
 }
 
