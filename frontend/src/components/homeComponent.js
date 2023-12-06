@@ -70,8 +70,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('ahsdf')
-        const response = await fetch("http://localhost:4000/home");
+        console.log('Fetching SampleData')
+        const response = await fetch("http://localhost:4000/");
         console.log(response)
         const result = await response.json();
         setData(result);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/index.css';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -8,7 +8,8 @@ import { Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 
 
-function Login({onLogin}) {
+function Login({ onLogin }) {
+  const navigate = useNavigate(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -41,7 +42,11 @@ function Login({onLogin}) {
         console.log('Successful');
         onLogin();
       } else {
-        console.log('login failed'); // Unsuccessful API response
+          console.log('login failed - ', data.message);
+          if (data.message === 'Email not found') {
+              alert('Login Failed. Create an account today!');
+              navigate('/signup');
+          }
       }
     } catch (error) {
       console.error(error);
@@ -55,7 +60,7 @@ return (
         <form onSubmit={handleSubmit} action="">
           <Box  sx={{ backgroundColor: 'white', margin: '100px auto', width: '50vh', height: '50vh', borderRadius: '30px', boxShadow: 3 }}>
             <Stack sx={{margin: 'auto'}}>
-            <Typography sx={{textAlign: 'center', margin:'auto', fontSize:'50px', fontFamily:'Arial', fontWeight: 'bolder', color:'#2f74f5', margin: '20px 0' }}>
+            <Typography sx={{textAlign: 'center', fontSize:'50px', fontFamily:'Arial', fontWeight: 'bolder', color:'#2f74f5', margin: '20px 0' }}>
               Login
             </Typography>
             <div className="">
@@ -86,9 +91,14 @@ return (
                 <Button type="submit" variant="outlined" sx={{margin:'15px', color:'#2447b3', fontSize:'15px'}}>
                   Login
                 </Button>
-                <Link to="/signup" className="link" style={{ width: "100%", display: 'flex', justifyContent: 'center' }}>
-                  Create Account
-                </Link>
+                            <Link
+                                to="/signup"
+                                className="link"
+                                sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                            >
+                                Create Account
+                            </Link>
+
               </Stack>
             </div>
             </Stack>
