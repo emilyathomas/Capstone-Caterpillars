@@ -145,6 +145,26 @@ function Home(){
                                 </CardActionArea>
                             </Card>
                         </Grid>
+                        <Grid item xs={8}>
+                            <Card width="80%">
+                                <CardActionArea>
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        img="/images/atatHq.jpg"
+                                        alt="AT&T Building 3"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            AT&T
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Telecommunications company
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

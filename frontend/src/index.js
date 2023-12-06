@@ -21,12 +21,18 @@ function App() {
         <Route
           path="/login"
           element={
-            isAuthenticated ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} />
+            isAuthenticated ? <Navigate to="/home" replace /> : <Login onLogin={handleLogin} />
           }
         />
         <Route path="/signup" element={<SignUp />} />
-        <Route
+        <Route 
           path="/"
+          element={
+            <Navigate to="/landing" replace/>
+          }
+        />
+        <Route
+          path="/home"
           element={
             isAuthenticated ? (
               <Layout>
