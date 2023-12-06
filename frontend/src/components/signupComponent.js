@@ -102,7 +102,7 @@ function SignUp() {
                 <Button type="submit" variant="outlined" sx={{margin:'15px', color:'#2447b3', fontSize:'15px'}}>
                   Sign Up
                 </Button>
-                <Link to="/" className="link" style={{ width: "100%", display: 'flex', justifyContent: 'center' }}>
+                <Link to="/login" className="link" style={{ width: "100%", display: 'flex', justifyContent: 'center' }}>
                   or Login
                 </Link>
               </Stack>
