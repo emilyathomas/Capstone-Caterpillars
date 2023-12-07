@@ -11,9 +11,6 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
-
-
-
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     padding: theme.spacing(1),
@@ -61,49 +58,46 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     justifyContent: 'center',
   }));
 
+  function Home() {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log('Fetching Employer Data')
+                const response = await fetch("http://localhost:4000/home");
+                console.log(response)
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                console.error('Error fetching Employer Data:');
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
-
- function Home(){
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log('Fetching SampleData')
-        const response = await fetch("http://localhost:4000/home");
-        console.log(response)
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:');
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-    
-
-    const renderCards = () => {
-      if (!data || data.length === 0) {
-        console.log("coudn;t load")
-        return <Typography>No data available</Typography>;
-      }
-      return data.map((item) => (
-        <Grid item xs={4} padding={'20px'}>
-          <Card  key={item.id}>
-            <CardActionArea>
-              <CardContent>
-                <Typography variant="h5">{item.companyName}</Typography>
-                <Typography>{item.headquartersAddress}</Typography>
-                <Typography>{item.hasEmployed}</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      ));
-    };
+      const renderCards = () => {
+          if (!data || data.length === 0) {
+              console.log("Unable to load employer cards.")
+              return <Typography>No data available</Typography>;
+          }
+          return data.map((item) => (
+              <Grid item xs={4} padding={'20px'}>
+                  <Card key={item.id}>
+                      <CardActionArea>
+                          <CardContent>
+                              <Typography variant="h5">{item.companyName}</Typography>
+                              <Typography>{item.headquartersAddress}</Typography>
+                              <Typography>{item.hasEmployed}</Typography>
+                          </CardContent>
+                      </CardActionArea>
+                  </Card>
+              </Grid>
+          ));
+      };
     return (
         <Box>
 
@@ -116,9 +110,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
               inputProps={{ 'aria-label': 'search' }}
             />
             </Search>
-            <Grid container spacing={2} backgroundColor="white" margin={'auto'} padding={'20px'} boxShadow={20}>
-                <Grid item xs={2}  justifyContent={'center'} alignContent={'center'} boxShadow={30}>
-                    <Stack spacing={2} useFlexGap justifyContent={'center'} alignContent={'center'}>
+            <Grid container spacing={2} backgroundColor="white" margin={'20 px'} padding={'10px'} boxShadow={20}>
+                <Grid item xs={2} justifyContent={'center'} alignContent={'center'} boxShadow={30} style={{ display: 'flex' }}>
+                    <Stack spacing={2} useFlexGap justifyContent={'center'} alignContent={'center'} width={'auto'}>
                         <Item>Filter 1</Item>
                         <Item>Filter 2</Item>
                         <Item>Filter 3</Item>
@@ -129,10 +123,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
                     
                   {renderCards()}
                     
-                  </Grid>
-                </Grid>
-             
-            </Grid>
+                  </Grid></Grid>
+                </Grid>     
 
 
         
