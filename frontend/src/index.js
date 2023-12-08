@@ -88,10 +88,10 @@ function App() {
             element={
               isAuthenticated ? (
                 <TreeDiagram />
-    ) : (
-      <Navigate to="/login" replace /> // Redirect to the login page if not authenticated
-    )
-  }
+              ) : (
+                <Navigate to="/login" replace /> // Redirect to the login page if not authenticated
+              )
+            } 
 />
         </Routes>
       </Layout>

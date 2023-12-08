@@ -8,8 +8,8 @@ import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Stack from '@mui/material/Stack';
@@ -24,29 +24,28 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-const Search = styled('div')(({ theme }) => ({
+  const StyledSearch = styled('div')(({ theme }) => ({
     position: 'relative',
-    borderRadius: 20,
-    backgroundColor: alpha(theme.palette.common.white, 1),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.grey[200],
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 1),
+      backgroundColor: theme.palette.grey[300],
     },
-    margin:theme.spacing(2),
+    marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
+      marginLeft: theme.spacing(1),
       width: 'auto',
     },
   }));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
       padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create('width'),
-      width: '100%',
+      width: '50%',
       [theme.breakpoints.up('md')]: {
         width: '20ch',
       },
@@ -64,9 +63,43 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }));
 
   function Home( {onLogout} ) {
-    const [data, setData] = useState([]);
+    const [cards, setCards] = useState([]);
     const [showTree, setShowTree] = useState(false);
     const navigate = useNavigate();
+    const [query, setQuery] = useState('');
+      
+      const clearCards = () => {
+        setCards([]);
+      };
+      
+      const handleSearch = async () => {
+        try {
+          console.log(query);
+          const response = await fetch('http://localhost:4000/home/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query }),
+            
+          });
+
+          const cards = await response.json();
+          console.log(cards)
+          clearCards();
+          setCards(cards);
+          renderCards();
+
+        } catch (error) {
+          console.error('Error fetching search results:', error);
+        }
+      };
+
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        handleSearch();
+      }
+    };
 
     const handleLogout = () => {
       onLogout();
@@ -80,7 +113,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
                 const response = await fetch("http://localhost:4000/home");
                 console.log(response)
                 const result = await response.json();
-                setData(result);
+                setCards(result);
                 console.log(result)
             } catch (error) {
                 console.error('Error fetching Employer Data:');
@@ -107,82 +140,91 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       };
     }, []);
 
-// Updated handleCardClick function
-const handleCardClick = (employeeID) => {
-  console.log("Clicked on card with employee ID:", employeeID);
-  setShowTree(true);
-  navigate(`/tree/${employeeID}`, { state: { showTree: true } });
-};
+    // Updated handleCardClick function
+    const handleCardClick = (employeeID) => {
+      console.log("Clicked on card with employee ID:", employeeID);
+      setShowTree(true);
+      navigate(`/tree/${employeeID}`, { state: { showTree: true } });
+    };
 
-// Updated renderCards function to pass item.employerID to handleCardClick
-const renderCards = () => {
-  if (!data || data.length === 0) {
-    console.log("Unable to load employer cards.");
-    return <Typography>No data available</Typography>;
-  }
-  return data.map((item) => (
-    <Grid item xs={12} sm={6} md={4} lg={3} key={item.employerID} style={{ padding: '10px' }}>
-      <Card
-        key={item.employerID}
-        onClick={() => {
-          console.log("Employee ID:", item.employerID);
-          handleCardClick(item.employerID); // Pass item.employerID here
-        }}
-        style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-      >
-        <CardActionArea>
-          <CardContent>
-            <Typography variant="h5">{item.companyName}</Typography>
-            <Typography>{item.headquartersAddress}</Typography>
-            <Typography>{item.hasEmployed}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
-  ));
-};
+    
+
+      const renderCards = () => {
+          if (!cards || cards.length === 0) {
+              console.log("Unable to load employer cards.")
+              return <Typography>No data available</Typography>;
+          }
+          return cards.map((item) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={item.employerID} style={{ padding: '10px' }}>
+              <Card
+                key={item.employerID}
+                onClick={() => {
+                  console.log("Employee ID:", item.employerID);
+                  handleCardClick(item.employerID); // Pass item.employerID here
+                }}
+                style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+              >
+              <CardActionArea>
+                <CardContent>
+                  <Typography variant="h5">{item.companyName}</Typography>
+                  <Typography>{item.headquartersAddress}</Typography>
+                  <Typography>{item.hasEmployed}</Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ));
+      };
     return (
         <Box>
+
           {showTree ? (
             <TreeDiagram />
           ) : (
             <>
               <Grid container alignItems="center" justifyContent="space-between" spacing={2} style={{paddingBottom: '10px', paddingRight: '10px'}}>
-                <Grid item xs>
-                  <Search>
-                    <SearchIconWrapper>
-                      <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
+                <Grid container  justifyContent={"center"}>
+                  {/*Search*/}
+                  <Grid item >
+                    <StyledSearch width={"50%"} border={"10px solid black"}>
+                    <StyledInputBase width={"50%"} border={"10px solid black"}
                       placeholder="Search…"
                       inputProps={{ 'aria-label': 'search' }}
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      onKeyPress={handleKeyPress}
                     />
-                  </Search>
-                </Grid>
-                <Grid item>
-                  <Button onClick={handleLogout} variant="contained" color="primary">
-                    Logout
-                  </Button>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} style={{ height: 'calc(100vh - 64px)', backgroundColor: 'white', margin: '0', width: '100%' }}>
-                {/* Filters */}
-                <Grid item xs={2} style={{ padding: '20px', boxShadow: 'inset 0 0 10px #000000' }}>
-                  <Stack spacing={2} justifyContent={'center'} alignContent={'center'} width={'auto'}>
-                    <Item>Filter 1</Item>
-                    <Item>Filter 2</Item>
-                    <Item>Filter 3</Item>
-                  </Stack>
-                </Grid>
-                {/* Cards */}
-                <Grid item xs={10} style={{ padding: '20px' }}>
-                  <Grid container spacing={1} style={{ backgroundColor: "#D3D3D3", padding: 'px', border: "10px solid white", height: '100%', boxSizing: 'border-box' }}>
-                    {renderCards()}
+                      <Button variant="contained" onClick={handleSearch} endIcon={<SearchIcon />}>
+                        Search
+                      </Button>
+                    </StyledSearch>
+                  </Grid>
+                  {/*Logout Button*/}
+                  <Grid item>
+                    <Button onClick={handleLogout} variant="contained" color="primary">
+                      Logout
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>
+            <Grid container spacing={2} backgroundColor="white" margin={'20 px'} padding={'10px'} boxShadow={20}>
+              {/* Filters */}
+              <Grid item xs={2} justifyContent={'center'} alignContent={'center'} boxShadow={30} style={{ display: 'flex' }}>
+                <Stack spacing={2} useFlexGap justifyContent={'center'} alignContent={'center'} width={'auto'}>
+                  <Item>Filter 1</Item>
+                  <Item>Filter 2</Item>
+                  <Item>Filter 3</Item>
+                </Stack>
+              </Grid>
+              {/* Cards */}
+              <Grid item xs={10} style={{ padding: '20px' }}>
+                <Grid container spacing={1} style={{ backgroundColor: "#D3D3D3", padding: 'px', border: "10px solid white", height: '100%', boxSizing: 'border-box' }}>
+                  {renderCards()}
+                </Grid>
+              </Grid>
+            </Grid>
             </>
-          )}     
+          )}   
         </Box>
     );
 }
