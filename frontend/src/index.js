@@ -92,7 +92,7 @@ function App() {
                 <Navigate to="/login" replace /> // Redirect to the login page if not authenticated
               )
             } 
-/>
+          />
         </Routes>
       </Layout>
     </BrowserRouter>
