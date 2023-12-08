@@ -64,7 +64,7 @@ return (
               Login
             </Typography>
             <div className="">
-              <Stack sx={{margin: '20px auto', width:'60%'}}>
+              <Stack sx={{margin: '20px auto', width:'50%'}}>
                 <TextField sx={{margin: '10px'}}
                   className="input-container"
                   required
