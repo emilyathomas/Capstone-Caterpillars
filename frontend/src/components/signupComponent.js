@@ -57,13 +57,13 @@ function SignUp() {
   return (
     <div>
         <form onSubmit={handleSubmit}>
-          <Box  sx={{ backgroundColor: 'white', margin: '100px auto', width: '50vh', height: '50vh', borderRadius: '30px', boxShadow: 3 }}>
+          <Box  sx={{ backgroundColor: 'white', margin: '100px auto', width: '50vh', height: 'auto', borderRadius: '30px', boxShadow: 3 }}>
             <Stack sx={{margin: 'auto'}}>
-            <Typography sx={{textAlign: 'center', margin:'auto', fontSize:'50px', fontFamily:'Arial', fontWeight: 'bolder', color:'#2f74f5',margin: '20px 0' }}>
+            <Typography sx={{textAlign: 'center', fontSize:'50px', fontFamily:'Arial', fontWeight: 'bolder', color:'#2f74f5',margin: '20px 0' }}>
               Sign Up
             </Typography>
             <div className="">
-              <Stack sx={{margin: '20px auto', width:'60%'}}>
+              <Stack sx={{margin: '20px auto', width:'50%'}}>
                 <TextField sx={{margin: '10px'}}
                   className="input-container"
                   required
@@ -101,14 +101,18 @@ function SignUp() {
                 />
                 <Button type="submit" variant="outlined" sx={{margin:'15px', color:'#2447b3', fontSize:'15px'}}>
                   Sign Up
-                </Button>
-                <Link to="/" className="link" style={{ width: "100%", display: 'flex', justifyContent: 'center' }}>
-                  or Login
-                </Link>
-              </Stack>
+                              </Button>
+                              <Link
+                                  to="/login"
+                                  className="link"
+                                  sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+                              >
+                                  or Login
+                              </Link>
+                          </Stack>
             </div>
             </Stack>
-          </Box>
+              </Box> 
         </form>
       </div>
   );

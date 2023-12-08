@@ -5,12 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+const Employer = require('./models/Employer.js');
+const Employee = require('./models/Employee.js');
 
-var homeRouter = require('./routes/home');
+
+var homeRouter = require('./routes/home.js');
 var indexRouter = require('./routes/index');
 var landingRouter = require('./routes/landing');
 var usersRouter = require('./routes/users');
 var testAPIRouter = require('./routes/testAPI');
+var dataRouter = require('./routes/getData.js');
 
 
 var sequelize = require('./config/database');
@@ -41,10 +45,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 app.use('/home', homeRouter);
-app.use('/', indexRouter);
 app.use('/landing', landingRouter);
 app.use('/users', usersRouter);
 app.use('/testAPI', testAPIRouter);
+app.use('/getdata', dataRouter);
+
 app.use(function(req, res, next) {
     console.log(req.originalUrl);
     next(createError(404));

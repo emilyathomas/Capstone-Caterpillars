@@ -18,10 +18,10 @@ EmployedInJob.init({
         }
     },
     theEmployee: {
-        type: DataTypes.VARCHAR(255),
+        type: DataTypes.STRING(255),
         references: {
             model: Employee,
-            key: 'id',
+            key: 'employeeID',
             default: null,
         }
     },
@@ -49,12 +49,12 @@ EmployedInJob.init({
 
 EmployedInJob.belongsTo(Employee, {
     foreignKey: 'id',
-    as: 'id'
+    as: 'employee'
 });
 
 EmployedInJob.belongsTo(Employee, {
     foreignKey: 'employer',
-    as: 'withCompany'
+    as: 'company'
 });
 
 module.exports = EmployedInJob;

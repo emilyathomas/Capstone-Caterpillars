@@ -29,7 +29,7 @@ UnregisteredUser.init({
 }, {
   sequelize,
   modelName: 'UnregisteredUser',
-  tableName: 'pendingregistrationrequests',
+  tableName: 'pendingRegistrationRequests',
   timestamps: true, 
   createdAt: 'requestedDate',
   updatedAt: false

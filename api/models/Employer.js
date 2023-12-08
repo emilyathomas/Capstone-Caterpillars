@@ -6,31 +6,39 @@ const Employee = require('./Employee');
 class Employer extends Model { }
 
 Employer.init({
-    id: {
-        type: DataTypes.INTEGER,
+    employerID: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        autoIncrement: true,
+        unique: true,
         allowNull: false
     },
     companyName: {
-        type: DataTypes.STRING(255)
+        type: DataTypes.STRING,
+        allowNull: true,
+
     },
     headquartersAddress: {
-        type: DataTypes.STRING(255)
+        type: DataTypes.STRING,
+        allowNull: true,
     },
     descendantCompanies: {
-        type: DataTypes.STRING(255)
+        type: DataTypes.STRING,
+        allowNull: true
     },
     predecessorCompanies: {
-        type: DataTypes.STRING(255)
+        type: DataTypes.STRING,
+        allowNull: true,
     },
     hasEmployed: {
-        type: DataTypes.BIGINT
+        type: DataTypes.BIGINT,
+        default: null
     }
 }, {
     sequelize,
     modelName: 'Employer',
-    tableName: 'employer'
+    tableName: 'employer',
+    timestamps: false,
 });
 
 module.exports = Employer;
