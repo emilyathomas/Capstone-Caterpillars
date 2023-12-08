@@ -7,21 +7,20 @@ const Employee = require('./Employee');
 class EmployedInJob extends Model { }
 
 EmployedInJob.init({
-    id: {
-        type: DataTypes.INTEGER,
+    employeeID: {
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false,
         references: {
             model: Employee,
-            key: 'id'
+            key: 'employeeID'
         }
     },
     theEmployee: {
         type: DataTypes.VARCHAR(255),
         references: {
             model: Employee,
-            key: 'id',
+            key: 'employeeID',
             default: null,
         }
     },
@@ -48,8 +47,8 @@ EmployedInJob.init({
 });
 
 EmployedInJob.belongsTo(Employee, {
-    foreignKey: 'id',
-    as: 'id'
+    foreignKey: 'employeeID',
+    as: 'employeeID'
 });
 
 EmployedInJob.belongsTo(Employee, {
