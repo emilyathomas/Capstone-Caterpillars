@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cors = require('cors');
 
 const Employer = require('./models/Employer.js');
+const Employee = require('./models/Employee.js');
 
 
 var homeRouter = require('./routes/home.js');
@@ -42,25 +43,6 @@ app.use((req, res, next) => {
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-
-// const sampleData = [
-//   { id: 1, companyName: 'best buy',headquartersAddress:'a;lsfkj@lgfks',  descendantCompanies:"13123123",predecessorCompanies:'', hasEmployed:20 },
-//   { id: 1, companyName: 'asd buy',headquartersAddress:'a;lsfkj@lgfks',  descendantCompanies:"13123123",predecessorCompanies:'', hasEmployed:20 },
-//   { id: 1, companyName: 'beasdfasdst buy',headquartersAddress:'a;lsfkj@lgfks',  descendantCompanies:"13123123",predecessorCompanies:'', hasEmployed:20 },
-//   { id: 1, companyName: 'sddsds buy',headquartersAddress:'a;lsfkj@lgfks',  descendantCompanies:"13123123",predecessorCompanies:'', hasEmployed:20 }
-
-// ];
-// app.get("/home", async  (req, res) => {
-    
-//   try {
-//       //const Employers = await Employer.findAll();
-//       res.json(sampleData);
-//     } catch (err) {
-//       console.error(err);
-//       return res.status(500).json({ success: false, message: 'Internal server error' });
-//     }
-//   });
-//app.use('/home', homeRouter);
 app.use('/home', homeRouter);
 app.use('/landing', landingRouter);
 app.use('/users', usersRouter);
