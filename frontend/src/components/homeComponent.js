@@ -73,6 +73,7 @@ function Home({ onLogout }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState({
     companyName: "",
+    industry:"",
     headquartersAddress: "",
     hasEmployed: "",
   });
@@ -209,6 +210,7 @@ function Home({ onLogout }) {
           <CardActionArea>
             <CardContent>
               <Typography variant="h5">{item.companyName}</Typography>
+              <Typography>{item.industry}</Typography>
               <Typography>{item.headquartersAddress}</Typography>
               <Typography>{item.hasEmployed}</Typography>
             </CardContent>
@@ -327,6 +329,14 @@ function Home({ onLogout }) {
                 value={editData.companyName}
                 onChange={(e) =>
                   setEditData({ ...editData, companyName: e.target.value })
+                }
+                fullWidth
+              />
+              <TextField
+                label="Industry"
+                value={editData.industry}
+                onChange={(e) =>
+                  setEditData({ ...editData, industry: e.target.value })
                 }
                 fullWidth
               />
