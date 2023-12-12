@@ -7,6 +7,7 @@ import Home from './components/homeComponent.js';
 import Layout from './components/layoutComponent.js';
 import Landing from './components/landingComponent.js'; 
 import TreeDiagram from './components/digraphComponent.js'; 
+import AddEmployer from './components/addemployerComponent.js';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
@@ -83,6 +84,11 @@ function App() {
             element={
                 <SignUp />
             }
+          />
+          <Route path="/modification"
+              element={
+                  <AddEmployer />
+              }
           />
           <Route path="/tree/:employeeID"
             element={

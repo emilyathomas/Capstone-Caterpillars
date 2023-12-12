@@ -72,7 +72,7 @@ router.post('/signup', async (req, res) => {
             from: 'capstone-caterpillar@outlook.com', // Sender address
             to: email, // Recipient address
             subject: 'Registration Confirmation',
-            html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://localhost:9000/landing/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
+            html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="https://capstonecaterpillars.com/landing/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
         };
 
         console.log(`Submitted Email: ${email}\nPendingPassword: ${password}\nrequestedDate: ${formattedDate}`)
@@ -121,7 +121,7 @@ router.get('/confirm/:uniqueIdentifier', async (req, res) => {
         where: { uniqueIdentifier: req.params.uniqueIdentifier }
       });
   
-      return res.status(200).json({ success: true, message: 'Account confirmed and user registered successfully' });
+      return res.redirect('/login');
     } catch (err) {
       console.error('Error during confirmation:', err);
       return res.status(500).json({ success: false, message: 'Internal server error' });

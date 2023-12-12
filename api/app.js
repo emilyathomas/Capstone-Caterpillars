@@ -15,6 +15,7 @@ var landingRouter = require('./routes/landing');
 var usersRouter = require('./routes/users');
 var testAPIRouter = require('./routes/testAPI');
 var dataRouter = require('./routes/getData.js');
+var modificationRouter = require('./routes/modification.js');
 
 
 var sequelize = require('./config/database');
@@ -49,6 +50,7 @@ app.use('/landing', landingRouter);
 app.use('/users', usersRouter);
 app.use('/testAPI', testAPIRouter);
 app.use('/getdata', dataRouter);
+app.use('/modification', modificationRouter);
 
 app.use(function(req, res, next) {
     console.log(req.originalUrl);

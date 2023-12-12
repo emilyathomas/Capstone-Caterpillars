@@ -1,33 +1,79 @@
-// EmployeeTree.js
-import React, { useState, useEffect } from "react";
-import { Tree } from "react-d3-tree";
-import { useParams } from "react-router-dom"; // Import useParams hook from react-router-dom
+import React, { useState, useEffect } from 'react';
+import { Tree } from 'react-d3-tree';
+import { useParams } from 'react-router-dom';
 
 const EmployeeTree = () => {
   const [treeData, setTreeData] = useState();
-  const { employeeID } = useParams(); // Get employeeID from URL parameter
+  const { employeeID } = useParams();
 
   useEffect(() => {
-    // Fetch the employee data from your endpoint using the employeeID
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:9000/getdata/${employeeID}`);
+        const response = await fetch(`https://capstonecaterpillars.com/getdata/${employeeID}`);
         const data = await response.json();
-        console.log(data); // Log what we're getting from the endpoint
 
         if (response.ok) {
-          // Transform the data into the tree structure
-          const transformedData = {
+          // Create the node structure for the current company
+          const currentCompanyNode = {
             name: data.companyName,
-            children: [
-              {
-                name: data.jobTitle,
-                children: [
-                  { name: `${data.firstName} ${data.lastName}` },
-                ],
-              },
-            ],
+            attributes: {
+              type: 'Company',
+            },
+            children: [],
           };
+
+          // Map employees to job titles
+          const jobTitleMap = new Map();
+          data.data.forEach((employee) => {
+            const jobTitle = employee.jobTitle;
+            if (!jobTitleMap.has(jobTitle)) {
+              jobTitleMap.set(jobTitle, []);
+            }
+            jobTitleMap.get(jobTitle).push({
+              firstName: employee.firstName,
+              lastName: employee.lastName,
+            });
+          });
+
+          // Add job title nodes to the current company node
+          jobTitleMap.forEach((employees, jobTitle) => {
+            const jobTitleNode = {
+              name: jobTitle,
+              attributes: {
+                type: 'JobTitle',
+              },
+              children: employees.map((employee) => ({
+                name: `${employee.firstName} ${employee.lastName}`,
+                attributes: {
+                  type: 'EmployeeName',
+                },
+              })),
+            };
+            currentCompanyNode.children.push(jobTitleNode);
+          });
+
+          // If there's a predecessor, make it the top node and add the current company as a child
+          const transformedData = data.predecessorCompanies
+            ? {
+                name: data.predecessorCompanies,
+                attributes: {
+                  type: 'Predecessor',
+                },
+                children: [currentCompanyNode],
+              }
+            : currentCompanyNode;
+
+          // If there's a descendant, add it as a child of the current company
+          if (data.descendantCompanies) {
+            currentCompanyNode.children.push({
+              name: data.descendantCompanies,
+              attributes: {
+                type: 'Descendant',
+              },
+              children: [], // If you have more detailed data, you can construct a subtree here
+            });
+          }
+
           setTreeData(transformedData);
         } else {
           console.error('Error fetching employee data:', data.message);
@@ -40,43 +86,61 @@ const EmployeeTree = () => {
     if (employeeID) {
       fetchData();
     }
-  }, [employeeID]); // Effect runs when employeeID changes
+  }, [employeeID]);
 
-  // Define custom node shape (box)
-  const svgBox = {
-    shape: "rect",
-    shapeProps: {
-      width: 120,   // Adjust width if needed
-      height: 40,   // Height of the box
-      x: -60,       // Center the box horizontally
-      y: -20,       // Center the box vertically
+  const config = {
+    translate: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+    orientation: 'vertical',
+  };
+
+  // Define custom node shapes for different types
+  const nodeShapes = {
+    Company: {
+      shape: 'rect',
+      shapeProps: {
+        width: 120,
+        height: 40,
+        x: -60,
+        y: -20,
+      },
+    },
+    JobTitle: {
+      shape: 'circle',
+      shapeProps: {
+        r: 20,
+      },
+    },
+    EmployeeName: {
+      shape: 'ellipse',
+      shapeProps: {
+        rx: 40,
+        ry: 20,
+      },
+      textLayout: {
+        textAnchor: 'middle',
+        style: {
+          dominantBaseline: 'middle', // This aligns the text vertically in the middle
+        },
+      },
     },
   };
 
-  // Define onClick handler for nodes
-  const onClick = (nodeData, evt) => {
-    console.log("Clicked node:", nodeData.name);
+  // Function to handle node click
+  const handleNodeClick = (nodeData, event) => {
+    console.log('Clicked Node:', nodeData);
+    event.stopPropagation();
   };
 
-  // Tree configuration
-  const config = {
-    nodeSvgShape: svgBox,
-    onClick,
-    translate: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-    orientation: "vertical",
-  };
-
-  // Render only if treeData is set
   return (
-    <div id="treeWrapper" style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <div id="treeWrapper" style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       {treeData && (
         <Tree
           data={treeData}
           zoomable={true}
           translate={config.translate}
           orientation={config.orientation}
-          nodeSvgShape={config.nodeSvgShape}
-          onClick={config.onClick}
+          nodeSvgShape={nodeShapes}
+          onClickNode={handleNodeClick}
         />
       )}
     </div>
