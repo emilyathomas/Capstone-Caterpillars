@@ -73,7 +73,7 @@ function Home({ onLogout }) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState({
     companyName: "",
-    industry:"",
+    industry: "",
     headquartersAddress: "",
     hasEmployed: "",
   });
@@ -114,7 +114,7 @@ function Home({ onLogout }) {
     } else {
       setShowAddEmployerForm("addEmployer");
     }
-    console.log("Add Employer Button Clicked");
+    console.log("Toggle Add Employer Form");
   };
 
   const handleKeyPress = (e) => {
@@ -137,7 +137,7 @@ function Home({ onLogout }) {
   const handleEdit = (employerID, event) => {
     event.stopPropagation();
     console.log("Editing " + employerID);
-    
+
 
     setEditingEmployerID(employerID);
     setEditDialogOpen(true);
@@ -235,7 +235,7 @@ function Home({ onLogout }) {
           )}
 
           {isMenuOpen[item.employerID] && (
-            <Card style={{ backgroundColor: "#D3D3D3", margin: "5px"}}>
+            <Card style={{ backgroundColor: "#D3D3D3", margin: "5px" }}>
               <CardActions>
                 <IconButton
                   style={{ color: "#035AA6" }}
@@ -460,8 +460,8 @@ function Home({ onLogout }) {
                 <Item>
                   <div>
                     <button onClick={handleButtonClick}>Add Employer</button>
-                    {showAddEmployerForm ? <AddEmployer /> : null}
                   </div>
+                  {showAddEmployerForm ? <AddEmployer /> : null}
                 </Item>
               </Stack>
             </Grid>

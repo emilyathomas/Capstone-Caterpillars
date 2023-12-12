@@ -19,32 +19,35 @@ function AddEmployer() {
         industry: ''
     };
 
-    //KYS WORK IN PROGRESS TO GET THE FORM TO SUBMIT
-
     const handleSubmit = async (values) => {
-        //     await new Promise((r) => setTimeout(r, 500));
-        //     alert(JSON.stringify(values, null, 2));
-        // }}
+        //     e.preventDefault();
         try {
             // Perform your API call to send the form data to the server here
             console.log('Form values submitted:', values);
             // You can use fetch or any other library to send a POST request to your server
             // Example:
-            // const response = await fetch('your_api_endpoint_here', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(values),
-            // });
-            // Handle the response as needed
+            const response = await fetch('http://localhost:4000/modification/addEmployer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
 
-            // Optionally, you can reset the form values here
+            const add = await response.json();
+
+            if (add.success) {
+                console.log('Successful');
+                alert('Information submitted. Database updating.');
+            } else {
+                console.log('Employer already exists');
+                alert('Employer already exists');
+            }
         } catch (error) {
             console.error('Error submitting form:', error);
+            alert('Error submitting form');
         }
     };
-
 
     return (
         <Box>
@@ -54,8 +57,11 @@ function AddEmployer() {
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
-                        onSubmit={handleSubmit}
-                    >
+                        onSubmit={(values, { setSubmitting }) => {
+                            handleSubmit(values);
+                            setSubmitting(false);
+                        }}
+                    >{(formik) => (
                         <Form>
                             <div>
                                 <label htmlFor="companyName">Company Name:</label>
@@ -74,7 +80,7 @@ function AddEmployer() {
                             </div>
                             {/*Submit button*/}
                             <button type="submit">Submit</button>
-                        </Form>
+                        </Form>)}
                     </Formik>
                 </div>
             </Stack>

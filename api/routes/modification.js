@@ -1,13 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const Employer = require('../models/Employer');
+const { v4: uuidv4 } = require('uuid');
 
 router.post('/addEmployer', async (req, res) => {
-    const employer = await Employer.create({
-        companyName: companyName,
-        headquartersAddress: headquartersAddress,
-        industry: industry,
-    });
+    const { companyName, headquartersAddress, industry } = req.body;
+    try {
+        // Check if the employer already exists
+        const existingEmployer = await Employer.findOne({ where: { companyName: companyName } });
+        if (existingEmployer) {
+            return res.status(400).json({ success: false, message: 'Employer already exists' });
+        }
+
+        const uniqueIdentifier = uuidv4(); // Generate a unique identifier
+
+        // Create a new Employer with the same uniqueIdentifier
+        const employer = await Employer.create({
+            employerID: uniqueIdentifier,
+            companyName: companyName,
+            headquartersAddress: headquartersAddress,
+            hasEmployed: null,
+            industry: industry,
+        });
+        return res.status(200).json({ success: true, message: 'Employer added successfully' });
+    }
+    catch (err) {
+        console.error('Error adding employer:', err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
 
 
 });

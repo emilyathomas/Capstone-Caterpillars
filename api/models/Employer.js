@@ -3,7 +3,17 @@ const sequelize = require('../config/database');
 
 const Employee = require('./Employee');
 
-class Employer extends Model { }
+class Employer extends Model {// Custom method to update hasEmployed based on SQL snippet
+    static async updateHasEmployed() {
+        const sql = `
+        UPDATE employer
+        SET hasEmployed = (
+          SELECT COUNT(DISTINCT employedInJob.employeeIDs)
+          FROM employedInJob
+          WHERE employedInJob.withCompany = employer.companyName)`;
+        await sequelize.query(sql, { type: Sequelize.QueryTypes.UPDATE });
+    }
+}
 
 Employer.init({
     employerID: {
