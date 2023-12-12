@@ -54,7 +54,7 @@ router.post('/signup', async (req, res) => {
       from: 'capstone-caterpillar@outlook.com',
       to: email,
       subject: 'Registration Confirmation',
-      html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="https://capstonecaterpillars.com/testAPI/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
+      html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://localhost:9000/testAPI/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

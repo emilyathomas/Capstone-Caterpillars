@@ -9,7 +9,7 @@ const EmployeeTree = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://capstonecaterpillars.com/getdata/${employeeID}`);
+        const response = await fetch(`http://localhost:9000/getdata/${employeeID}`);
         const data = await response.json();
 
         if (response.ok) {

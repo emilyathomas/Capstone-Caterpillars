@@ -69,7 +69,7 @@ function Home( {onLogout} ) {
   const handleSearch = async () => {
     try {
       console.log(query);
-      const response = await fetch('https://capstonecaterpillars.com/home/search', {
+      const response = await fetch('http://localhost:4000/home/search', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ function Home( {onLogout} ) {
     const fetchData = async () => {
         try {
             console.log('Fetching Employer Data')
-            const response = await fetch("https://capstonecaterpillars.com/home");
+            const response = await fetch("http://localhost:4000/home");
             console.log(response)
             const result = await response.json();
             setCards(result);

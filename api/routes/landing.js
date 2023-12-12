@@ -72,7 +72,7 @@ router.post('/signup', async (req, res) => {
             from: 'capstone-caterpillar@outlook.com', // Sender address
             to: email, // Recipient address
             subject: 'Registration Confirmation',
-            html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="https://capstonecaterpillars.com/landing/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
+            html: `<p>Thank you for registering. Please confirm your email by clicking on the following link: <a href="http://localhost:9000/landing/confirm/${uniqueIdentifier}">Confirm Email</a></p>`
         };
 
         console.log(`Submitted Email: ${email}\nPendingPassword: ${password}\nrequestedDate: ${formattedDate}`)
