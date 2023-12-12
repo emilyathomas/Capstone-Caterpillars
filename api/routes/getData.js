@@ -12,10 +12,10 @@ router.get('/:employerID', async (req, res) => {
     console.log("Received employerID:", employerID); // Log the employerID
 
     // Find the employer by employerID and retrieve companyName
-      const employerData = await Employer.findOne({
-         where: { employerID: employerID },
-         attributes: ['companyName', 'descendantCompanies', 'predecessorCompanies'],
-    }); 
+    const employerData = await Employer.findOne({
+      where: { employerID: employerID },
+      attributes: ['companyName', 'industry'],
+    });
 
     console.log("Employer data:", employerData); // Log employerData
 
@@ -72,8 +72,7 @@ router.get('/:employerID', async (req, res) => {
       success: true,
       data: employees,
       companyName: employerData.companyName,
-      descendantCompanies: employerData.descendantCompanies,
-      predecessorCompanies: employerData.predecessorCompanies,
+      industry: employerData.industry
     });
   } catch (err) {
     console.error('Error fetching data:', err);

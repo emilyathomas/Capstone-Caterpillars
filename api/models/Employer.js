@@ -12,7 +12,7 @@ Employer.init({
         primaryKey: true,
         unique: true,
         allowNull: false,
-	field: 'employerID'
+        field: 'employerID'
     },
     companyName: {
         type: DataTypes.STRING,
@@ -23,17 +23,13 @@ Employer.init({
         type: DataTypes.STRING,
         allowNull: true,
     },
-    descendantCompanies: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    predecessorCompanies: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     hasEmployed: {
         type: DataTypes.BIGINT,
         default: null
+    },
+    industry: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 }, {
     sequelize,

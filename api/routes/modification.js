@@ -6,8 +6,7 @@ router.post('/addEmployer', async (req, res) => {
     const employer = await Employer.create({
         companyName: companyName,
         headquartersAddress: headquartersAddress,
-        descendentCompanies: descendentCompanies,
-        predecessorCompanies: predecessorCompanies,
+        industry: industry,
     });
 
 

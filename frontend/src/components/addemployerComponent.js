@@ -8,8 +8,7 @@ import Stack from '@mui/material/Stack';
 const validationSchema = Yup.object({
     companyName: Yup.string().required('Comapny name is required'),
     headquartersAddress: Yup.string().required('Company address is required'),
-    descendentCompanies: Yup.string(),
-    predecessorCompanies: Yup.string(),
+    industry: Yup.string()
 });
 
 function AddEmployer() {
@@ -17,8 +16,7 @@ function AddEmployer() {
     const initialValues = {
         companyName: '',
         headquartersAddress: '',
-        descendentCompanies: '',
-        predecessorCompanies: ''
+        industry: ''
     };
 
     //KYS WORK IN PROGRESS TO GET THE FORM TO SUBMIT
@@ -65,19 +63,14 @@ function AddEmployer() {
                                 <ErrorMessage name="companyNameError" component="div" />
                             </div>
                             <div>
-                                <label htmlFor="headquartersAddress">headquartersAddress:</label>
+                                <label htmlFor="headquartersAddress">Headquarters Address:</label>
                                 <Field type="text" id="headquartersAddress" name="headquartersAddress" />
                                 <ErrorMessage name="headquartersAddressError" component="div" />
                             </div>
                             <div>
-                                <label htmlFor="descendantCompanies">descendantCompanies:</label>
-                                <Field type="text" id="descendantCompanies" name="descendantCompanies" />
-                                <ErrorMessage name="descendantCompanies" component="div" />
-                            </div>
-                            <div>
-                                <label htmlFor="predecessorCompanies">predecessorCompanies:</label>
-                                <Field type="text" id="predecessorCompanies" name="predecessorCompanies" />
-                                <ErrorMessage name="predecessorCompanies" component="div" />
+                                <label htmlFor="industry">Industry:</label>
+                                <Field type="text" id="industry" name="industry" />
+                                <ErrorMessage name="industry" component="div" />
                             </div>
                             {/*Submit button*/}
                             <button type="submit">Submit</button>
