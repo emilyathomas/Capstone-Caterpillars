@@ -33,6 +33,10 @@ Employer.init({
         type: DataTypes.STRING,
         allowNull: true,
     },
+    parentCompany: {
+        type: DataTypes.STRING,
+        default: null
+    },
     hasEmployed: {
         type: DataTypes.BIGINT,
         default: null
@@ -40,7 +44,19 @@ Employer.init({
     industry: {
         type: DataTypes.STRING,
         allowNull: true,
-    }
+    },
+    hasMerged: {
+        type: DataTypes.TINYINT,
+        default: null
+    },
+    incorporationDate: {
+        type: DataTypes.DATE,
+        default: null
+    },
+    dissolutionDate: {
+        type: DataTypes.DATE,
+        default: null
+    },
 }, {
     sequelize,
     modelName: 'Employer',

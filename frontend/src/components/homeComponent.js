@@ -23,6 +23,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
+import DateField from "@mui/material/TextField";
+import BooleanField from "@mui/material/TextField";
 import CardActions from "@mui/material/CardActions";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -356,6 +358,30 @@ function Home({ onLogout }) {
                 value={editData.hasEmployed}
                 onChange={(e) =>
                   setEditData({ ...editData, hasEmployed: e.target.value })
+                }
+                fullWidth
+              />
+              <DateField
+                label="Incorporation Date:"
+                value={editData.incorporationDate}
+                onChange={(e) =>
+                  setEditData({ ...editData, incorporationDate: e.target.value })
+                }
+                fullWidth
+              />
+              <DateField
+                label="Dissolution Date:"
+                value={editData.dissolutionDate}
+                onChange={(e) =>
+                  setEditData({ ...editData, dissolutionDate: e.target.value })
+                }
+                fullWidth
+              />
+              <BooleanField
+                label="Has the company merged?"
+                value={editData.hasMerged}
+                onChange={(e) =>
+                  setEditData({ ...editData, hasMerged: e.target.value })
                 }
                 fullWidth
               />

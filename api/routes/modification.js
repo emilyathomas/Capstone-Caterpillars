@@ -4,7 +4,7 @@ const Employer = require('../models/Employer');
 const { v4: uuidv4 } = require('uuid');
 
 router.post('/addEmployer', async (req, res) => {
-    const { companyName, headquartersAddress, industry } = req.body;
+    const { companyName, headquartersAddress, parentCompany, industry, hasMerged, incorporationDate, dissolutionDate } = req.body;
     try {
         // Check if the employer already exists
         const existingEmployer = await Employer.findOne({ where: { companyName: companyName } });
@@ -19,8 +19,12 @@ router.post('/addEmployer', async (req, res) => {
             employerID: uniqueIdentifier,
             companyName: companyName,
             headquartersAddress: headquartersAddress,
+            parentCompany: parentCompany,
             hasEmployed: null,
             industry: industry,
+            hasMerged: hasMerged,
+            incorporationDate: incorporationDate,
+            dissolutionDate: dissolutionDate
         });
         return res.status(200).json({ success: true, message: 'Employer added successfully' });
     }

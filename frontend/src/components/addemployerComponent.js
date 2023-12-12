@@ -16,7 +16,11 @@ function AddEmployer() {
     const initialValues = {
         companyName: '',
         headquartersAddress: '',
-        industry: ''
+        parentCompany: '',
+        industry: '',
+        hasMerged: '',
+        incorporationDate: '',
+        dissolutionDate: ''
     };
 
     const handleSubmit = async (values) => {
@@ -74,9 +78,29 @@ function AddEmployer() {
                                 <ErrorMessage name="headquartersAddressError" component="div" />
                             </div>
                             <div>
+                                <label htmlFor="parentCompany">Parent Company:</label>
+                                <Field type="text" id="parentCompany" name="parentCompany" />
+                                <ErrorMessage name="parentCompany" component="div" />
+                            </div>
+                            <div>
                                 <label htmlFor="industry">Industry:</label>
                                 <Field type="text" id="industry" name="industry" />
                                 <ErrorMessage name="industry" component="div" />
+                            </div>
+                            <div>
+                                <label htmlFor="hasMerged">Have they merged?</label>
+                                <Field type="bool" id="hasMerged" name="hasMerged" />
+                                <ErrorMessage name="hasMerged" component="div" />
+                            </div>
+                            <div>
+                                <label htmlFor="incorporationDate ">Incorporation Date:</label>
+                                <Field type="date" id="incorporationDate " name="incorporationDate " />
+                                <ErrorMessage name="incorporationDate " component="div" />
+                            </div>
+                            <div>
+                                <label htmlFor="dissolutionDate ">Dissolution Date:</label>
+                                <Field type="date" id="dissolutionDate " name="dissolutionDate " />
+                                <ErrorMessage name="dissolutionDate " component="div" />
                             </div>
                             {/*Submit button*/}
                             <button type="submit">Submit</button>

@@ -51,27 +51,27 @@ const EmployeeTree = () => {
             };
             currentCompanyNode.children.push(jobTitleNode);
           });
-          // If there's a predecessor, make it the top node and add the current company as a child
-          const transformedData = data.predecessorCompanies
+          // If there's a parentCompany, make it the top node
+          const transformedData = data.parentCompany
             ? {
-              name: data.predecessorCompanies,
+              name: data.parentCompany,
               attributes: {
-                type: 'Predecessor',
+                type: 'Parent',
               },
               children: [currentCompanyNode],
             }
             : currentCompanyNode;
 
-          // If there's a descendant, add it as a child of the current company
-          if (data.descendantCompanies) {
-            currentCompanyNode.children.push({
-              name: data.descendantCompanies,
-              attributes: {
-                type: 'Descendant',
-              },
-              children: [], // If you have more detailed data, you can construct a subtree here
-            });
-          }
+          // // If there's a descendant, add it as a child of the current company
+          // if (data.descendantCompanies) {
+          //   currentCompanyNode.children.push({
+          //     name: data.descendantCompanies,
+          //     attributes: {
+          //       type: 'Descendant',
+          //     },
+          //     children: [], // If you have more detailed data, you can construct a subtree here
+          //   });
+          // }
           setTreeData(transformedData);
         } else {
           console.error('Error fetching employee data:', data.message);

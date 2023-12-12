@@ -35,7 +35,17 @@ const sequelize = require('../config/database');
 
 const Employee = require('./Employee');
 
-class Employer extends Model { }
+class Employer extends Model {// Custom method to update hasEmployed based on SQL snippet
+    static async updateHasEmployed() {
+        const sql = `
+        UPDATE employer
+        SET hasEmployed = (
+          SELECT COUNT(DISTINCT employedInJob.employeeIDs)
+          FROM employedInJob
+          WHERE employedInJob.withCompany = employer.companyName)`;
+        await sequelize.query(sql, { type: Sequelize.QueryTypes.UPDATE });
+    }
+}
 
 Employer.init({
     employerID: {
@@ -55,6 +65,10 @@ Employer.init({
         type: DataTypes.STRING,
         allowNull: true,
     },
+    parentCompany: {
+        type: DataTypes.STRING,
+        default: null
+    },
     hasEmployed: {
         type: DataTypes.BIGINT,
         default: null
@@ -62,8 +76,19 @@ Employer.init({
     industry: {
         type: DataTypes.STRING,
         allowNull: true,
-
-    }
+    },
+    hasMerged: {
+        type: DataTypes.TINYINT,
+        default: null
+    },
+    incorporationDate: {
+        type: DataTypes.DATE,
+        default: null
+    },
+    dissolutionDate: {
+        type: DataTypes.DATE,
+        default: null
+    },
 }, {
     sequelize,
     modelName: 'Employer',
