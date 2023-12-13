@@ -26,6 +26,7 @@ import TextField from "@mui/material/TextField";
 import DateField from "@mui/material/TextField";
 import BooleanField from "@mui/material/TextField";
 import CardActions from "@mui/material/CardActions";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -70,15 +71,15 @@ function Home({ onLogout }) {
   const [cards, setCards] = useState([]);
   const [showTree, setShowTree] = useState(false);
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [addData, setAddData] = useState({
-    headquartersAddress: '',
-    parentCompany: '',
-    industry: '',
+    headquartersAddress: "",
+    parentCompany: "",
+    industry: "",
     hasMerged: false,
     incorporationDate: null,
-    dissolutionDate: null
+    dissolutionDate: null,
   });
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState({
@@ -138,7 +139,6 @@ function Home({ onLogout }) {
     event.stopPropagation();
     console.log("Editing " + employerID);
 
-
     setEditingEmployerID(employerID);
     setEditDialogOpen(true);
   };
@@ -168,7 +168,7 @@ function Home({ onLogout }) {
           method: "DELETE",
         }
       );
-      console.log(employerID)
+      console.log(employerID);
 
       if (response.ok) {
         console.log("Employer deleted successfully");
@@ -328,15 +328,18 @@ function Home({ onLogout }) {
 
   const handleAddSubmit = async (values) => {
     try {
-      console.log('Form values submitted:', values);
+      console.log("Form values submitted:", values);
 
-      const response = await fetch('http://localhost:4000/modification/addEmployer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        "http://localhost:4000/modification/addEmployer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (response.ok) {
         window.location.reload();
@@ -396,7 +399,10 @@ function Home({ onLogout }) {
                 label="Incorporation Date:"
                 value={editData.incorporationDate}
                 onChange={(e) =>
-                  setEditData({ ...editData, incorporationDate: e.target.value })
+                  setEditData({
+                    ...editData,
+                    incorporationDate: e.target.value,
+                  })
                 }
                 fullWidth
               />
@@ -496,23 +502,24 @@ function Home({ onLogout }) {
                 }
                 fullWidth
               />
-              <Checkbox
-                label="Has the company merged?"
-                value={addData.hasMerged}
-                onChange={(e) =>
-                  setAddData({ ...addData, hasMerged: e.target.value })
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={addData.hasMerged}
+                    onChange={(e) =>
+                      setAddData({ ...addData, hasMerged: e.target.value })
+                    }
+                    fullWidth
+                  />
                 }
-                fullWidth
+                label="Has the company merged?"
               />
             </DialogContent>
             <DialogActions>
               <Button onClick={handleAddDialogClose}>Cancel</Button>
-              <Button onClick={() => handleAddSubmit()}>
-                Submit
-              </Button>
+              <Button onClick={() => handleAddSubmit()}>Submit</Button>
             </DialogActions>
           </Dialog>
-
 
           <Grid
             container
