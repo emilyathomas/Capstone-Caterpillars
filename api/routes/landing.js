@@ -10,7 +10,6 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-
         const user = await RegisteredUser.findOne({ where: { verifiedEmail: email } });
 
         if (!user) {
@@ -18,7 +17,11 @@ router.post('/login', async (req, res) => {
         }
 
         if (user.password === password) {
-            return res.status(200).json({ success: true, message: 'Login successful' });
+            return res.status(200).json({
+                success: true,
+                message: 'Login successful',
+                isAdmin: !!user.isAdmin
+            });
         } else {
             return res.status(401).json({ success: false, message: 'Incorrect password' });
         }

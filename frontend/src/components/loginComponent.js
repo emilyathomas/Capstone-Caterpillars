@@ -22,38 +22,36 @@ function Login({ onLogin }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Validate email and password if needed
-    // Send request to backend to verify email and password
-    try {
-      //begin API call
-      const response = await fetch("http://localhost:4000/landing/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-  
-      const data = await response.json();
-      if (data.success) {
-        // Successful API response
-        console.log('Successful');
-        onLogin();
-      } else {
-          console.log('login failed - ', data.message);
+      e.preventDefault();
+    
+      try {
+        const response = await fetch("http://localhost:4000/landing/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+    
+        const data = await response.json();
+        if (data.success) {
+          // If login is successful, store the isAdmin flag and call the onLogin callback
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('isAdmin', data.isAdmin); // Store the isAdmin value
+          onLogin(); // Handle successful login
+        } else {
+          // Handle failed login attempt
+          console.log('Login failed - ', data.message);
           if (data.message === 'Email not found') {
-              alert('Login Failed. Create an account today!');
-              navigate('/signup');
+            alert('Login Failed. Create an account today!');
+            navigate('/signup');
           }
+        }
+      } catch (error) {
+        // Handle errors in the login process
+        console.error('Login request failed - ', error);
       }
-    } catch (error) {
-      console.error(error);
-      console.log(error);
-    }
-  };
-
+    };
 
 return (
   <><div>
