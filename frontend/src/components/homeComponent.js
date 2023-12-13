@@ -11,7 +11,7 @@ import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Checkbox } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
@@ -71,7 +71,15 @@ function Home({ onLogout }) {
   const [showTree, setShowTree] = useState(false);
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const [showAddEmployerForm, setShowAddEmployerForm] = useState(false);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [addData, setAddData] = useState({
+    headquartersAddress: '',
+    parentCompany: '',
+    industry: '',
+    hasMerged: false,
+    incorporationDate: null,
+    dissolutionDate: null
+  });
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState({
     companyName: "",
@@ -109,16 +117,6 @@ function Home({ onLogout }) {
       console.error("Error fetching search results:", error);
     }
   };
-
-  const handleButtonClick = () => {
-    if (showAddEmployerForm) {
-      setShowAddEmployerForm(false);
-    } else {
-      setShowAddEmployerForm("addEmployer");
-    }
-    console.log("Toggle Add Employer Form");
-  };
-
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -182,6 +180,17 @@ function Home({ onLogout }) {
     } catch (error) {
       console.error("Error deleting employer:", error);
     }
+  };
+  const handleAdd = () => {
+    if (addDialogOpen) {
+      setAddDialogOpen(false);
+    } else {
+      setAddDialogOpen(true);
+    }
+    console.log("Toggle Add Employer Form");
+  };
+  const handleAddDialogClose = () => {
+    setAddDialogOpen(false);
   };
 
   const renderCards = () => {
@@ -317,6 +326,28 @@ function Home({ onLogout }) {
     }
   };
 
+  const handleAddSubmit = async (values) => {
+    try {
+      console.log('Form values submitted:', values);
+
+      const response = await fetch('http://localhost:4000/modification/addEmployer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error("Error adding employer:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding employer:", error);
+    }
+  };
+
   return (
     <Box>
       {showTree ? (
@@ -411,6 +442,78 @@ function Home({ onLogout }) {
             </DialogActions>
           </Dialog>
 
+          <Dialog open={addDialogOpen} onClose={handleAddDialogClose}>
+            <DialogTitle>Add Employer</DialogTitle>
+            <DialogContent>
+              <TextField
+                label="Company Name"
+                value={addData.companyName}
+                onChange={(e) =>
+                  setAddData({ ...addData, companyName: e.target.value })
+                }
+                fullWidth
+              />
+              <TextField
+                label="Industry"
+                value={addData.industry}
+                onChange={(e) =>
+                  setAddData({ ...addData, industry: e.target.value })
+                }
+                fullWidth
+              />
+              <TextField
+                label="Headquarters Address"
+                value={addData.headquartersAddress}
+                onChange={(e) =>
+                  setAddData({
+                    ...addData,
+                    headquartersAddress: e.target.value,
+                  })
+                }
+                fullWidth
+              />
+              <TextField
+                label="Has Employed"
+                value={addData.hasEmployed}
+                onChange={(e) =>
+                  setAddData({ ...addData, hasEmployed: e.target.value })
+                }
+                fullWidth
+              />
+              <DateField
+                label="Incorporation Date:"
+                value={addData.incorporationDate}
+                onChange={(e) =>
+                  setAddData({ ...addData, incorporationDate: e.target.value })
+                }
+                fullWidth
+              />
+              <DateField
+                label="Dissolution Date:"
+                value={addData.dissolutionDate}
+                onChange={(e) =>
+                  setAddData({ ...addData, dissolutionDate: e.target.value })
+                }
+                fullWidth
+              />
+              <Checkbox
+                label="Has the company merged?"
+                value={addData.hasMerged}
+                onChange={(e) =>
+                  setAddData({ ...addData, hasMerged: e.target.value })
+                }
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleAddDialogClose}>Cancel</Button>
+              <Button onClick={() => handleAddSubmit()}>
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+
           <Grid
             container
             spacing={2}
@@ -485,9 +588,9 @@ function Home({ onLogout }) {
                 <Item>Filter 3</Item>
                 <Item>
                   <div>
-                    <button onClick={handleButtonClick}>Add Employer</button>
+                    <button onClick={handleAdd}>Add Company</button>
                   </div>
-                  {showAddEmployerForm ? <AddEmployer /> : null}
+                  {/* {addDialogOpen ? <AddEmployer /> : null} */}
                 </Item>
               </Stack>
             </Grid>
