@@ -26,7 +26,6 @@ import DateField from "@mui/material/TextField";
 import BooleanField from "@mui/material/TextField";
 import CardActions from "@mui/material/CardActions";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -513,7 +512,7 @@ function Home({ onLogout }) {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleAddDialogClose}>Cancel</Button>
-              <Button onClick={() => handleAddSubmit()}>Submit</Button>
+              <Button onClick={() => handleAddSubmit(addData)}>Submit</Button>
             </DialogActions>
           </Dialog>
 
