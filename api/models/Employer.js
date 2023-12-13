@@ -47,15 +47,15 @@ Employer.init({
     },
     hasMerged: {
         type: DataTypes.TINYINT,
-        default: null
+        default: false,
     },
     incorporationDate: {
         type: DataTypes.DATE,
-        default: null
+        default: null,
     },
     dissolutionDate: {
         type: DataTypes.DATE,
-        default: null
+        default: null,
     },
 }, {
     sequelize,

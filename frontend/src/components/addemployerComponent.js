@@ -7,8 +7,7 @@ import Stack from '@mui/material/Stack';
 
 const validationSchema = Yup.object({
     companyName: Yup.string().required('Comapny name is required'),
-    headquartersAddress: Yup.string().required('Company address is required'),
-    industry: Yup.string()
+    headquartersAddress: Yup.string().required('Company address is required')
 });
 
 function AddEmployer() {
@@ -18,9 +17,9 @@ function AddEmployer() {
         headquartersAddress: '',
         parentCompany: '',
         industry: '',
-        hasMerged: '',
-        incorporationDate: '',
-        dissolutionDate: ''
+        hasMerged: false,
+        incorporationDate: null,
+        dissolutionDate: null
     };
 
     const handleSubmit = async (values) => {
@@ -45,7 +44,7 @@ function AddEmployer() {
                 alert('Information submitted. Database updating.');
             } else {
                 console.log('Employer already exists');
-                alert('Employer already exists');
+                // alert('Employer already exists');
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -70,12 +69,12 @@ function AddEmployer() {
                             <div>
                                 <label htmlFor="companyName">Company Name:</label>
                                 <Field type="text" id="companyName" name="companyName" />
-                                <ErrorMessage name="companyNameError" component="div" />
+                                <ErrorMessage name="companyName" component="div" className="error-message" />
                             </div>
                             <div>
                                 <label htmlFor="headquartersAddress">Headquarters Address:</label>
                                 <Field type="text" id="headquartersAddress" name="headquartersAddress" />
-                                <ErrorMessage name="headquartersAddressError" component="div" />
+                                <ErrorMessage name="headquartersAddress" component="div" className="error-message" />
                             </div>
                             <div>
                                 <label htmlFor="parentCompany">Parent Company:</label>
@@ -89,7 +88,7 @@ function AddEmployer() {
                             </div>
                             <div>
                                 <label htmlFor="hasMerged">Have they merged?</label>
-                                <Field type="bool" id="hasMerged" name="hasMerged" />
+                                <Field type="checkbox" id="hasMerged" name="hasMerged" />
                                 <ErrorMessage name="hasMerged" component="div" />
                             </div>
                             <div>
