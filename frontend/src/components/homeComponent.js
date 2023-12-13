@@ -15,7 +15,6 @@ import { CardActionArea, Checkbox } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import AddEmployer from "../components/addemployerComponent.js";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Dialog from "@mui/material/Dialog";
@@ -26,6 +25,7 @@ import TextField from "@mui/material/TextField";
 import DateField from "@mui/material/TextField";
 import BooleanField from "@mui/material/TextField";
 import CardActions from "@mui/material/CardActions";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -70,15 +70,16 @@ function Home({ onLogout }) {
   const [cards, setCards] = useState([]);
   const [showTree, setShowTree] = useState(false);
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [addData, setAddData] = useState({
+    companyName: '',
     headquartersAddress: '',
     parentCompany: '',
     industry: '',
     hasMerged: false,
-    incorporationDate: null,
-    dissolutionDate: null
+    incorporationDate: undefined,
+    dissolutionDate: undefined,
   });
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editData, setEditData] = useState({
@@ -168,7 +169,7 @@ function Home({ onLogout }) {
           method: "DELETE",
         }
       );
-      console.log(employerID)
+      console.log(employerID);
 
       if (response.ok) {
         console.log("Employer deleted successfully");
@@ -326,26 +327,32 @@ function Home({ onLogout }) {
     }
   };
 
-  const handleAddSubmit = async (values) => {
+  const handleAddSubmit = async (addData) => {
     try {
-      console.log('Form values submitted:', values);
+      console.log('Form values submitted:', addData);
 
-      const response = await fetch('http://localhost:4000/modification/addEmployer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-
+      const response = await fetch(
+        "http://localhost:4000/modification/addEmployer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(addData),
+        }
+      );
       if (response.ok) {
-        window.location.reload();
+        console.log('Company Add Successful');
+        alert('Company add successful. Database updating.');
       } else {
-        console.error("Error adding employer:", response.statusText);
+        console.log('Company already exists');
+        alert('Company already exists');
       }
     } catch (error) {
-      console.error("Error adding employer:", error);
+      console.error('Error submitting form:', error);
+      alert('Error submitting form');
     }
+
   };
 
   return (
@@ -396,7 +403,10 @@ function Home({ onLogout }) {
                 label="Incorporation Date:"
                 value={editData.incorporationDate}
                 onChange={(e) =>
-                  setEditData({ ...editData, incorporationDate: e.target.value })
+                  setEditData({
+                    ...editData,
+                    incorporationDate: e.target.value,
+                  })
                 }
                 fullWidth
               />
@@ -472,14 +482,6 @@ function Home({ onLogout }) {
                 }
                 fullWidth
               />
-              <TextField
-                label="Has Employed"
-                value={addData.hasEmployed}
-                onChange={(e) =>
-                  setAddData({ ...addData, hasEmployed: e.target.value })
-                }
-                fullWidth
-              />
               <DateField
                 label="Incorporation Date:"
                 value={addData.incorporationDate}
@@ -496,20 +498,22 @@ function Home({ onLogout }) {
                 }
                 fullWidth
               />
-              <Checkbox
-                label="Has the company merged?"
-                value={addData.hasMerged}
-                onChange={(e) =>
-                  setAddData({ ...addData, hasMerged: e.target.value })
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={addData.hasMerged}
+                    onChange={(e) =>
+                      setAddData({ ...addData, hasMerged: e.target.value })
+                    }
+                    fullWidth
+                  />
                 }
-                fullWidth
+                label="Has the company merged?"
               />
             </DialogContent>
             <DialogActions>
               <Button onClick={handleAddDialogClose}>Cancel</Button>
-              <Button onClick={() => handleAddSubmit()}>
-                Submit
-              </Button>
+              <Button onClick={() => handleAddSubmit()}>Submit</Button>
             </DialogActions>
           </Dialog>
 
