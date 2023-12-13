@@ -26,6 +26,7 @@ import DateField from "@mui/material/TextField";
 import BooleanField from "@mui/material/TextField";
 import CardActions from "@mui/material/CardActions";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -74,9 +75,9 @@ function Home({ onLogout }) {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [addData, setAddData] = useState({
     companyName: '',
-    headquartersAddress: '',
-    parentCompany: '',
-    industry: '',
+    headquartersAddress: "",
+    parentCompany: "",
+    industry: "",
     hasMerged: false,
     incorporationDate: undefined,
     dissolutionDate: undefined,
@@ -138,7 +139,6 @@ function Home({ onLogout }) {
   const handleEdit = (employerID, event) => {
     event.stopPropagation();
     console.log("Editing " + employerID);
-
 
     setEditingEmployerID(employerID);
     setEditDialogOpen(true);
@@ -516,7 +516,6 @@ function Home({ onLogout }) {
               <Button onClick={() => handleAddSubmit()}>Submit</Button>
             </DialogActions>
           </Dialog>
-
 
           <Grid
             container
